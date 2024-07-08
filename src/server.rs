@@ -4,12 +4,8 @@ use tokio_stream::wrappers::ReceiverStream;
 use tokio_stream::Stream;
 use tonic::{Request, Response, Status, Streaming};
 
-pub mod spark_connect {
-    tonic::include_proto!("spark.connect");
-}
-
-use crate::server::spark_connect::spark_connect_service_server::SparkConnectService;
-use crate::server::spark_connect::{
+use crate::spark::connect::spark_connect_service_server::SparkConnectService;
+use crate::spark::connect::{
     AddArtifactsRequest, AddArtifactsResponse, AnalyzePlanRequest, AnalyzePlanResponse,
     ArtifactStatusesRequest, ArtifactStatusesResponse, ConfigRequest, ConfigResponse,
     ExecutePlanRequest, ExecutePlanResponse, FetchErrorDetailsRequest, FetchErrorDetailsResponse,

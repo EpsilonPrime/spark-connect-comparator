@@ -1,12 +1,14 @@
-use crate::server::MySparkConnectService;
-use crate::spark_connect::spark_connect_service_server::SparkConnectServiceServer;
-use tonic::transport::Server;
-
 mod server;
-
-pub mod spark_connect {
-    tonic::include_proto!("spark.connect");
+pub mod spark {
+    pub mod connect {
+        #![allow(clippy::all)]
+        include!("generated/spark.connect.rs");
+    }
 }
+
+use crate::server::MySparkConnectService;
+use tonic::transport::Server;
+use crate::spark::connect::spark_connect_service_server::SparkConnectServiceServer;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
