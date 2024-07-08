@@ -16,12 +16,6 @@ use crate::spark::connect::{
 #[derive(Debug, Default)]
 pub struct MySparkConnectService {}
 
-impl MySparkConnectService {
-    pub(crate) fn new(_server: MySparkConnectService) -> Self {
-        Self{}
-    }
-}
-
 #[tonic::async_trait]
 impl SparkConnectService for MySparkConnectService {
     type ExecutePlanStream =

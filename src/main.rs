@@ -4,19 +4,21 @@ pub mod spark {
         #![allow(clippy::all)]
         include!("generated/spark.connect.rs");
     }
+
+    pub(crate) const FILE_DESCRIPTOR_SET: &[u8] =
+        tonic::include_file_descriptor_set!("generated/spark_connect");
 }
 
 use crate::server::MySparkConnectService;
-use tonic::transport::Server;
 use crate::spark::connect::spark_connect_service_server::SparkConnectServiceServer;
-
+use tonic::transport::Server;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50055".parse()?;
     let server = MySparkConnectService::default();
 
     let reflection_service = tonic_reflection::server::Builder::configure()
-        //.register_encoded_file_descriptor_set(spark_connect::FILE_DESCRIPTOR_SET)
+        .register_encoded_file_descriptor_set(spark::FILE_DESCRIPTOR_SET)
         .build()
         .unwrap();
 

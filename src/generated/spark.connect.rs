@@ -13,43 +13,43 @@ pub struct DataType {
 /// Nested message and enum types in `DataType`.
 pub mod data_type {
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Boolean {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Byte {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Short {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Integer {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Long {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Float {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Double {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
@@ -63,43 +63,43 @@ pub mod data_type {
         pub collation: ::prost::alloc::string::String,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Binary {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Null {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Timestamp {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Date {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct TimestampNtz {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct CalendarInterval {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct YearMonthInterval {
         #[prost(int32, optional, tag = "1")]
         pub start_field: ::core::option::Option<i32>,
@@ -109,7 +109,7 @@ pub mod data_type {
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct DayTimeInterval {
         #[prost(int32, optional, tag = "1")]
         pub start_field: ::core::option::Option<i32>,
@@ -120,7 +120,7 @@ pub mod data_type {
     }
     /// Start compound types.
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Char {
         #[prost(int32, tag = "1")]
         pub length: i32,
@@ -128,7 +128,7 @@ pub mod data_type {
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct VarChar {
         #[prost(int32, tag = "1")]
         pub length: i32,
@@ -136,7 +136,7 @@ pub mod data_type {
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Decimal {
         #[prost(int32, optional, tag = "1")]
         pub scale: ::core::option::Option<i32>,
@@ -194,7 +194,7 @@ pub mod data_type {
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Variant {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
@@ -288,7 +288,7 @@ pub mod data_type {
 }
 /// StorageLevel for persisting Datasets/Tables.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct StorageLevel {
     /// (Required) Whether the cache should use disk or not.
     #[prost(bool, tag = "1")]
@@ -714,7 +714,7 @@ pub mod expression {
             pub scale: ::core::option::Option<i32>,
         }
         #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         pub struct CalendarInterval {
             #[prost(int32, tag = "1")]
             pub months: i32,
@@ -1166,7 +1166,7 @@ pub mod catalog {
 }
 /// See `spark.catalog.currentDatabase`
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct CurrentDatabase {}
 /// See `spark.catalog.setCurrentDatabase`
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1381,7 +1381,7 @@ pub struct UncacheTable {
 }
 /// See `spark.catalog.clearCache`
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ClearCache {}
 /// See `spark.catalog.refreshTable`
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1401,7 +1401,7 @@ pub struct RefreshByPath {
 }
 /// See `spark.catalog.currentCatalog`
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct CurrentCatalog {}
 /// See `spark.catalog.setCurrentCatalog`
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1562,7 +1562,7 @@ pub mod relation {
 }
 /// Used for testing purposes only.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Unknown {}
 /// Common metadata of all relations.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1754,7 +1754,7 @@ pub struct Join {
 /// Nested message and enum types in `Join`.
 pub mod join {
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct JoinDataType {
         /// If the left data type is a struct.
         #[prost(bool, tag = "1")]
@@ -2132,7 +2132,7 @@ pub struct Sample {
 }
 /// Relation of type \[[Range]\] that generates a sequence of integers.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Range {
     /// (Optional) Default value = 0
     #[prost(int64, optional, tag = "1")]
@@ -2913,28 +2913,6 @@ pub struct AsOfJoin {
     #[prost(string, tag = "10")]
     pub direction: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExamplePluginRelation {
-    #[prost(message, optional, tag = "1")]
-    pub input: ::core::option::Option<Relation>,
-    #[prost(string, tag = "2")]
-    pub custom_field: ::prost::alloc::string::String,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExamplePluginExpression {
-    #[prost(message, optional, tag = "1")]
-    pub child: ::core::option::Option<Expression>,
-    #[prost(string, tag = "2")]
-    pub custom_field: ::prost::alloc::string::String,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExamplePluginCommand {
-    #[prost(string, tag = "1")]
-    pub custom_field: ::prost::alloc::string::String,
-}
 /// A \[[Command]\] is an operation that is executed by the server that does not directly consume or
 /// produce a relational result.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -3423,7 +3401,7 @@ pub struct StreamingQueryCommand {
 /// Nested message and enum types in `StreamingQueryCommand`.
 pub mod streaming_query_command {
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct ExplainCommand {
         /// TODO: Consider reusing Explain from AnalyzePlanRequest message.
         ///        We can not do this right now since it base.proto imports this file.
@@ -3431,14 +3409,14 @@ pub mod streaming_query_command {
         pub extended: bool,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct AwaitTerminationCommand {
         #[prost(int64, optional, tag = "2")]
         pub timeout_ms: ::core::option::Option<i64>,
     }
     /// See documentation for the corresponding API method in StreamingQuery.
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     pub enum Command {
         /// status() API.
         #[prost(bool, tag = "2")]
@@ -3525,7 +3503,7 @@ pub mod streaming_query_command_result {
         pub stack_trace: ::core::option::Option<::prost::alloc::string::String>,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct AwaitTerminationResult {
         #[prost(bool, tag = "1")]
         pub terminated: bool,
@@ -3559,7 +3537,7 @@ pub struct StreamingQueryManagerCommand {
 /// Nested message and enum types in `StreamingQueryManagerCommand`.
 pub mod streaming_query_manager_command {
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct AwaitAnyTerminationCommand {
         /// (Optional) The waiting time in milliseconds to wait for any query to terminate.
         #[prost(int64, optional, tag = "1")]
@@ -3633,7 +3611,7 @@ pub mod streaming_query_manager_command_result {
         pub name: ::core::option::Option<::prost::alloc::string::String>,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct AwaitAnyTerminationResult {
         #[prost(bool, tag = "1")]
         pub terminated: bool,
@@ -3676,7 +3654,7 @@ pub mod streaming_query_manager_command_result {
 /// The add_listener_bus_listener command will only be set true in the first case.
 /// The remove_listener_bus_listener command will only be set true in the second case.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct StreamingQueryListenerBusCommand {
     #[prost(oneof = "streaming_query_listener_bus_command::Command", tags = "1, 2")]
     pub command: ::core::option::Option<streaming_query_listener_bus_command::Command>,
@@ -3684,7 +3662,7 @@ pub struct StreamingQueryListenerBusCommand {
 /// Nested message and enum types in `StreamingQueryListenerBusCommand`.
 pub mod streaming_query_listener_bus_command {
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     pub enum Command {
         #[prost(bool, tag = "1")]
         AddListenerBusListener(bool),
@@ -3713,7 +3691,7 @@ pub struct StreamingQueryListenerEventsResult {
 }
 /// Command to get the output of 'SparkContext.resources'
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct GetResourcesCommand {}
 /// Response for command 'GetResourcesCommand'.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -3735,7 +3713,7 @@ pub struct CreateResourceProfileCommand {
 }
 /// Response for command 'CreateResourceProfileCommand'.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct CreateResourceProfileCommandResult {
     /// (Required) Server-side generated resource profile id.
     #[prost(int32, tag = "1")]
@@ -3984,7 +3962,7 @@ pub mod analyze_plan_request {
         pub plan: ::core::option::Option<super::Plan>,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct SparkVersion {}
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4108,13 +4086,13 @@ pub mod analyze_plan_response {
         pub tree_string: ::prost::alloc::string::String,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct IsLocal {
         #[prost(bool, tag = "1")]
         pub is_local: bool,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct IsStreaming {
         #[prost(bool, tag = "1")]
         pub is_streaming: bool,
@@ -4139,25 +4117,25 @@ pub mod analyze_plan_response {
         pub parsed: ::core::option::Option<super::DataType>,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct SameSemantics {
         #[prost(bool, tag = "1")]
         pub result: bool,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct SemanticHash {
         #[prost(int32, tag = "1")]
         pub result: i32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Persist {}
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct Unpersist {}
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct GetStorageLevel {
         /// (Required) The StorageLevel as a result of get_storage_level request.
         #[prost(message, optional, tag = "1")]
@@ -4380,7 +4358,7 @@ pub mod execute_plan_response {
     /// the execution is complete. If the server sends onComplete without sending a ResultComplete,
     /// it means that there is more, and the client should use ReattachExecute RPC to continue.
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct ResultComplete {}
     /// This message is used to communicate progress about the query progress during the execution.
     #[allow(clippy::derive_partial_eq_without_eq)]
@@ -4396,7 +4374,7 @@ pub mod execute_plan_response {
     /// Nested message and enum types in `ExecutionProgress`.
     pub mod execution_progress {
         #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         pub struct StageInfo {
             #[prost(int64, tag = "1")]
             pub stage_id: i64,
@@ -4794,7 +4772,7 @@ pub struct ArtifactStatusesResponse {
 /// Nested message and enum types in `ArtifactStatusesResponse`.
 pub mod artifact_statuses_response {
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct ArtifactStatus {
         /// Exists or not particular artifact at the server.
         #[prost(bool, tag = "1")]
@@ -4908,7 +4886,7 @@ pub struct InterruptResponse {
     pub interrupted_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ReattachOptions {
     /// If true, the request can be reattached to using ReattachExecute.
     /// ReattachExecute can be used either if the stream broke with a GRPC network error,
@@ -5006,7 +4984,7 @@ pub mod release_execute_request {
     /// Release and close operation completely.
     /// This will also interrupt the query if it is running execution, and wait for it to be torn down.
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct ReleaseAll {}
     /// Release all responses from the operation response stream up to and including
     /// the response with the given by response_id.
@@ -5771,19 +5749,17 @@ pub mod spark_connect_service_server {
     /// Main interface for the SparkConnect service.
     #[derive(Debug)]
     pub struct SparkConnectServiceServer<T: SparkConnectService> {
-        inner: _Inner<T>,
+        inner: Arc<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
         max_decoding_message_size: Option<usize>,
         max_encoding_message_size: Option<usize>,
     }
-    struct _Inner<T>(Arc<T>);
     impl<T: SparkConnectService> SparkConnectServiceServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
         pub fn from_arc(inner: Arc<T>) -> Self {
-            let inner = _Inner(inner);
             Self {
                 inner,
                 accept_compression_encodings: Default::default(),
@@ -5846,7 +5822,6 @@ pub mod spark_connect_service_server {
             Poll::Ready(Ok(()))
         }
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
-            let inner = self.inner.clone();
             match req.uri().path() {
                 "/spark.connect.SparkConnectService/ExecutePlan" => {
                     #[allow(non_camel_case_types)]
@@ -5879,7 +5854,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = ExecutePlanSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -5926,7 +5900,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = AnalyzePlanSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -5972,7 +5945,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = ConfigSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6021,7 +5993,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = AddArtifactsSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6068,7 +6039,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = ArtifactStatusSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6114,7 +6084,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = InterruptSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6166,7 +6135,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = ReattachExecuteSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6213,7 +6181,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = ReleaseExecuteSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6260,7 +6227,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = ReleaseSessionSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6310,7 +6276,6 @@ pub mod spark_connect_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let inner = inner.0;
                         let method = FetchErrorDetailsSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
@@ -6332,8 +6297,11 @@ pub mod spark_connect_service_server {
                         Ok(
                             http::Response::builder()
                                 .status(200)
-                                .header("grpc-status", "12")
-                                .header("content-type", "application/grpc")
+                                .header("grpc-status", tonic::Code::Unimplemented as i32)
+                                .header(
+                                    http::header::CONTENT_TYPE,
+                                    tonic::metadata::GRPC_CONTENT_TYPE,
+                                )
                                 .body(empty_body())
                                 .unwrap(),
                         )
@@ -6354,18 +6322,30 @@ pub mod spark_connect_service_server {
             }
         }
     }
-    impl<T: SparkConnectService> Clone for _Inner<T> {
-        fn clone(&self) -> Self {
-            Self(Arc::clone(&self.0))
-        }
-    }
-    impl<T: std::fmt::Debug> std::fmt::Debug for _Inner<T> {
-        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            write!(f, "{:?}", self.0)
-        }
-    }
     impl<T: SparkConnectService> tonic::server::NamedService
     for SparkConnectServiceServer<T> {
         const NAME: &'static str = "spark.connect.SparkConnectService";
     }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExamplePluginRelation {
+    #[prost(message, optional, tag = "1")]
+    pub input: ::core::option::Option<Relation>,
+    #[prost(string, tag = "2")]
+    pub custom_field: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExamplePluginExpression {
+    #[prost(message, optional, tag = "1")]
+    pub child: ::core::option::Option<Expression>,
+    #[prost(string, tag = "2")]
+    pub custom_field: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExamplePluginCommand {
+    #[prost(string, tag = "1")]
+    pub custom_field: ::prost::alloc::string::String,
 }
