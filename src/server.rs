@@ -13,20 +13,20 @@ use tokio_stream::Stream;
 use tonic::{Request, Response, Status, Streaming};
 
 #[derive(Debug, Default)]
-pub struct MySparkConnectService {
+pub struct SparkConnectComparatorService {
     muxer: OutboundMultiplexer,
 }
 
-impl MySparkConnectService {
+impl SparkConnectComparatorService {
     pub fn new() -> Self {
-        MySparkConnectService {
+        SparkConnectComparatorService {
             muxer: OutboundMultiplexer::new(),
         }
     }
 }
 
 #[tonic::async_trait]
-impl SparkConnectService for MySparkConnectService {
+impl SparkConnectService for SparkConnectComparatorService {
     type ExecutePlanStream =
         Pin<Box<dyn Stream<Item = Result<ExecutePlanResponse, Status>> + Send>>;
 

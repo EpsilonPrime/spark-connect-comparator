@@ -11,13 +11,13 @@ pub mod spark {
         tonic::include_file_descriptor_set!("generated/spark_connect");
 }
 
-use crate::server::MySparkConnectService;
+use crate::server::SparkConnectComparatorService;
 use crate::spark::connect::spark_connect_service_server::SparkConnectServiceServer;
 use tonic::transport::Server;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50055".parse()?;
-    let server = MySparkConnectService::new();
+    let server = SparkConnectComparatorService::new();
 
     let reflection_service = tonic_reflection::server::Builder::configure()
         .register_encoded_file_descriptor_set(spark::FILE_DESCRIPTOR_SET)
