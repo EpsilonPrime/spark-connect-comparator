@@ -1,15 +1,15 @@
 use crate::outbound_multiplexer::OutboundMultiplexer;
 use crate::spark::connect::spark_connect_service_server::SparkConnectService;
 use crate::spark::connect::{
-    execute_plan_response, AddArtifactsRequest, AddArtifactsResponse, AnalyzePlanRequest,
-    AnalyzePlanResponse, ArtifactStatusesRequest, ArtifactStatusesResponse, ConfigRequest,
-    ConfigResponse, ExecutePlanRequest, ExecutePlanResponse, InterruptRequest, InterruptResponse,
+    AddArtifactsRequest, AddArtifactsResponse, AnalyzePlanRequest, AnalyzePlanResponse,
+    ArtifactStatusesRequest, ArtifactStatusesResponse, ConfigRequest, ConfigResponse,
+    ExecutePlanRequest, ExecutePlanResponse, InterruptRequest, InterruptResponse,
     ReattachExecuteRequest, ReleaseExecuteRequest, ReleaseExecuteResponse,
 };
 use std::pin::Pin;
 use tokio::sync::mpsc;
 use tokio_stream::wrappers::ReceiverStream;
-use tokio_stream::Stream;
+use tokio_stream::{Stream, StreamExt};
 use tonic::{Request, Response, Status, Streaming};
 
 #[derive(Debug, Default)]
@@ -38,26 +38,24 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let (tx, rx) = mpsc::channel(128);
 
-        // TODO -- Forward the request to a remote client and yield all of the replies.
+        let req_ref = request.get_ref();
 
-        let reply = ExecutePlanResponse {
-            session_id: request.into_inner().session_id,
-            metrics: None,
-            observed_metrics: vec![],
-            operation_id: "".to_string(),
-            response_id: "".to_string(),
-            response_type: execute_plan_response::ResponseType::ResultComplete {
-                0: Default::default(),
-            }
-            .into(),
-            schema: None,
-        };
-        match tx.send(Result::<_, Status>::Ok(reply)).await {
-            Ok(_) => {
-                // item (server response) was queued to be sent to client
-            }
-            Err(_item) => {
-                // output_stream was build from rx and both are dropped
+        let mut client = self
+            .muxer
+            .get_client(req_ref.session_id.to_string())
+            .await
+            .unwrap();
+
+        let mut stream = client.execute_plan(request).await?.into_inner();
+
+        while let Some(reply) = stream.next().await {
+            match tx.send(reply).await {
+                Ok(_) => {
+                    // item (server response) was queued to be sent to client
+                }
+                Err(_item) => {
+                    // output_stream was build from rx and both are dropped
+                }
             }
         }
 
@@ -141,21 +139,24 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let (tx, rx) = mpsc::channel(128);
 
-        let reply = ExecutePlanResponse {
-            session_id: request.into_inner().session_id,
-            operation_id: "".to_string(),
-            response_id: "".to_string(),
-            metrics: None,
-            observed_metrics: vec![],
-            schema: None,
-            response_type: None,
-        };
-        match tx.send(Result::<_, Status>::Ok(reply)).await {
-            Ok(_) => {
-                // item (server response) was queued to be sent to client
-            }
-            Err(_item) => {
-                // output_stream was build from rx and both are dropped
+        let req_ref = request.get_ref();
+
+        let mut client = self
+            .muxer
+            .get_client(req_ref.session_id.to_string())
+            .await
+            .unwrap();
+
+        let mut stream = client.reattach_execute(request).await?.into_inner();
+
+        while let Some(reply) = stream.next().await {
+            match tx.send(reply).await {
+                Ok(_) => {
+                    // item (server response) was queued to be sent to client
+                }
+                Err(_item) => {
+                    // output_stream was build from rx and both are dropped
+                }
             }
         }
 
