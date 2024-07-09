@@ -1,4 +1,4 @@
-use crate::spark::connect::spark_connect_service_client::SparkConnectServiceClient;
+use crate::proto::spark_connect_service_client::SparkConnectServiceClient;
 
 #[derive(Debug, Default)]
 pub struct OutboundMultiplexer {
@@ -20,6 +20,6 @@ impl OutboundMultiplexer {
         // TODO -- Reuse the client for the specified session (utilize shared futures).
         let connection = SparkConnectServiceClient::connect(self.destination.to_string());
 
-        Ok(connection.await?)
+        connection.await
     }
 }
