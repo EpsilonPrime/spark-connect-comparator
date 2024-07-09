@@ -6,11 +6,10 @@ use tonic::{Request, Response, Status, Streaming};
 
 use crate::spark::connect::spark_connect_service_server::SparkConnectService;
 use crate::spark::connect::{
-    AddArtifactsRequest, AddArtifactsResponse, AnalyzePlanRequest, AnalyzePlanResponse,
-    ArtifactStatusesRequest, ArtifactStatusesResponse, ConfigRequest, ConfigResponse,
-    ExecutePlanRequest, ExecutePlanResponse, FetchErrorDetailsRequest, FetchErrorDetailsResponse,
-    InterruptRequest, InterruptResponse, ReattachExecuteRequest, ReleaseExecuteRequest,
-    ReleaseExecuteResponse, ReleaseSessionRequest, ReleaseSessionResponse,
+    execute_plan_response, AddArtifactsRequest, AddArtifactsResponse, AnalyzePlanRequest,
+    AnalyzePlanResponse, ArtifactStatusesRequest, ArtifactStatusesResponse, ConfigRequest,
+    ConfigResponse, ExecutePlanRequest, ExecutePlanResponse, InterruptRequest, InterruptResponse,
+    ReattachExecuteRequest, ReleaseExecuteRequest, ReleaseExecuteResponse,
 };
 
 #[derive(Debug, Default)]
@@ -25,7 +24,7 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<ExecutePlanRequest>,
     ) -> Result<Response<Self::ExecutePlanStream>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got an execute_plan request: {:?}", request);
 
         let (tx, rx) = mpsc::channel(128);
 
@@ -35,9 +34,11 @@ impl SparkConnectService for MySparkConnectService {
             observed_metrics: vec![],
             operation_id: "".to_string(),
             response_id: "".to_string(),
-            response_type: None,
+            response_type: execute_plan_response::ResponseType::ResultComplete {
+                0: Default::default(),
+            }
+            .into(),
             schema: None,
-            server_side_session_id: "".to_string(),
         };
         match tx.send(Result::<_, Status>::Ok(reply)).await {
             Ok(_) => {
@@ -58,11 +59,10 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<AnalyzePlanRequest>,
     ) -> Result<Response<AnalyzePlanResponse>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got an analyze_plan request: {:?}", request);
 
         let reply = AnalyzePlanResponse {
             session_id: request.into_inner().session_id,
-            server_side_session_id: "".to_string(),
             result: None,
         };
 
@@ -73,11 +73,10 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<ConfigRequest>,
     ) -> Result<Response<ConfigResponse>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got a config request: {:?}", request);
 
         let reply = ConfigResponse {
             session_id: request.into_inner().session_id,
-            server_side_session_id: "".to_string(),
             pairs: vec![],
             warnings: vec![],
         };
@@ -89,13 +88,9 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<Streaming<AddArtifactsRequest>>,
     ) -> Result<Response<AddArtifactsResponse>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got an add_artifacts request: {:?}", request);
 
-        let reply = AddArtifactsResponse {
-            session_id: "".to_string(),
-            server_side_session_id: "".to_string(),
-            artifacts: vec![],
-        };
+        let reply = AddArtifactsResponse { artifacts: vec![] };
 
         Ok(Response::new(reply))
     }
@@ -104,11 +99,9 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<ArtifactStatusesRequest>,
     ) -> Result<Response<ArtifactStatusesResponse>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got an artifact_status request: {:?}", request);
 
         let reply = ArtifactStatusesResponse {
-            session_id: "".to_string(),
-            server_side_session_id: "".to_string(),
             statuses: Default::default(),
         };
 
@@ -119,11 +112,10 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<InterruptRequest>,
     ) -> Result<Response<InterruptResponse>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got an interrupt request: {:?}", request);
 
         let reply = InterruptResponse {
-            session_id: "".to_string(),
-            server_side_session_id: "".to_string(),
+            session_id: request.into_inner().session_id,
             interrupted_ids: vec![],
         };
 
@@ -137,13 +129,12 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<ReattachExecuteRequest>,
     ) -> Result<Response<Self::ExecutePlanStream>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got a reattach_execute request: {:?}", request);
 
         let (tx, rx) = mpsc::channel(128);
 
         let reply = ExecutePlanResponse {
-            session_id: "".to_string(),
-            server_side_session_id: "".to_string(),
+            session_id: request.into_inner().session_id,
             operation_id: "".to_string(),
             response_id: "".to_string(),
             metrics: None,
@@ -170,42 +161,11 @@ impl SparkConnectService for MySparkConnectService {
         &self,
         request: Request<ReleaseExecuteRequest>,
     ) -> Result<Response<ReleaseExecuteResponse>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got a release_execute request: {:?}", request);
 
         let reply = ReleaseExecuteResponse {
-            session_id: "".to_string(),
-            server_side_session_id: "".to_string(),
+            session_id: request.into_inner().session_id,
             operation_id: None,
-        };
-
-        Ok(Response::new(reply))
-    }
-
-    async fn release_session(
-        &self,
-        request: Request<ReleaseSessionRequest>,
-    ) -> Result<Response<ReleaseSessionResponse>, Status> {
-        println!("Got a request: {:?}", request);
-
-        let reply = ReleaseSessionResponse {
-            session_id: "".to_string(),
-            server_side_session_id: "".to_string(),
-        };
-
-        Ok(Response::new(reply))
-    }
-
-    async fn fetch_error_details(
-        &self,
-        request: Request<FetchErrorDetailsRequest>,
-    ) -> Result<Response<FetchErrorDetailsResponse>, Status> {
-        println!("Got a request: {:?}", request);
-
-        let reply = FetchErrorDetailsResponse {
-            session_id: "".to_string(),
-            root_error_idx: None,
-            server_side_session_id: "".to_string(),
-            errors: vec![],
         };
 
         Ok(Response::new(reply))

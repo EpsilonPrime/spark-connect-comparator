@@ -6,7 +6,7 @@
 pub struct DataType {
     #[prost(
         oneof = "data_type::Kind",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 25, 23, 24"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24"
     )]
     pub kind: ::core::option::Option<data_type::Kind>,
 }
@@ -55,12 +55,10 @@ pub mod data_type {
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct String {
         #[prost(uint32, tag = "1")]
         pub type_variation_reference: u32,
-        #[prost(string, tag = "2")]
-        pub collation: ::prost::alloc::string::String,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -194,12 +192,6 @@ pub mod data_type {
         pub type_variation_reference: u32,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-    pub struct Variant {
-        #[prost(uint32, tag = "1")]
-        pub type_variation_reference: u32,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Udt {
         #[prost(string, tag = "1")]
@@ -276,8 +268,6 @@ pub mod data_type {
         Struct(Struct),
         #[prost(message, tag = "22")]
         Map(::prost::alloc::boxed::Box<Map>),
-        #[prost(message, tag = "25")]
-        Variant(Variant),
         /// UserDefinedType
         #[prost(message, tag = "23")]
         Udt(::prost::alloc::boxed::Box<Udt>),
@@ -286,122 +276,14 @@ pub mod data_type {
         Unparsed(Unparsed),
     }
 }
-/// StorageLevel for persisting Datasets/Tables.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct StorageLevel {
-    /// (Required) Whether the cache should use disk or not.
-    #[prost(bool, tag = "1")]
-    pub use_disk: bool,
-    /// (Required) Whether the cache should use memory or not.
-    #[prost(bool, tag = "2")]
-    pub use_memory: bool,
-    /// (Required) Whether the cache should use off-heap or not.
-    #[prost(bool, tag = "3")]
-    pub use_off_heap: bool,
-    /// (Required) Whether the cached data is deserialized or not.
-    #[prost(bool, tag = "4")]
-    pub deserialized: bool,
-    /// (Required) The number of replicas.
-    #[prost(int32, tag = "5")]
-    pub replication: i32,
-}
-/// ResourceInformation to hold information about a type of Resource.
-/// The corresponding class is 'org.apache.spark.resource.ResourceInformation'
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResourceInformation {
-    /// (Required) The name of the resource
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// (Required) An array of strings describing the addresses of the resource.
-    #[prost(string, repeated, tag = "2")]
-    pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// An executor resource request.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutorResourceRequest {
-    /// (Required) resource name.
-    #[prost(string, tag = "1")]
-    pub resource_name: ::prost::alloc::string::String,
-    /// (Required) resource amount requesting.
-    #[prost(int64, tag = "2")]
-    pub amount: i64,
-    /// Optional script used to discover the resources.
-    #[prost(string, optional, tag = "3")]
-    pub discovery_script: ::core::option::Option<::prost::alloc::string::String>,
-    /// Optional vendor, required for some cluster managers.
-    #[prost(string, optional, tag = "4")]
-    pub vendor: ::core::option::Option<::prost::alloc::string::String>,
-}
-/// A task resource request.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TaskResourceRequest {
-    /// (Required) resource name.
-    #[prost(string, tag = "1")]
-    pub resource_name: ::prost::alloc::string::String,
-    /// (Required) resource amount requesting as a double to support fractional
-    /// resource requests.
-    #[prost(double, tag = "2")]
-    pub amount: f64,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResourceProfile {
-    /// (Optional) Resource requests for executors. Mapped from the resource name
-    /// (e.g., cores, memory, CPU) to its specific request.
-    #[prost(map = "string, message", tag = "1")]
-    pub executor_resources: ::std::collections::HashMap<
-        ::prost::alloc::string::String,
-        ExecutorResourceRequest,
-    >,
-    /// (Optional) Resource requests for tasks. Mapped from the resource name
-    /// (e.g., cores, memory, CPU) to its specific request.
-    #[prost(map = "string, message", tag = "2")]
-    pub task_resources: ::std::collections::HashMap<
-        ::prost::alloc::string::String,
-        TaskResourceRequest,
-    >,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Origin {
-    /// (Required) Indicate the origin type.
-    #[prost(oneof = "origin::Function", tags = "1")]
-    pub function: ::core::option::Option<origin::Function>,
-}
-/// Nested message and enum types in `Origin`.
-pub mod origin {
-    /// (Required) Indicate the origin type.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Function {
-        #[prost(message, tag = "1")]
-        PythonOrigin(super::PythonOrigin),
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PythonOrigin {
-    /// (Required) Name of the origin, for example, the name of the function
-    #[prost(string, tag = "1")]
-    pub fragment: ::prost::alloc::string::String,
-    /// (Required) Callsite to show to end users, for example, stacktrace.
-    #[prost(string, tag = "2")]
-    pub call_site: ::prost::alloc::string::String,
-}
 /// Expression used to refer to fields, functions and similar. This can be used everywhere
 /// expressions in SQL appear.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Expression {
-    #[prost(message, optional, tag = "18")]
-    pub common: ::core::option::Option<ExpressionCommon>,
     #[prost(
         oneof = "expression::ExprType",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 999"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 999"
     )]
     pub expr_type: ::core::option::Option<expression::ExprType>,
 }
@@ -626,57 +508,12 @@ pub mod expression {
         /// (Required) the expression to be casted.
         #[prost(message, optional, boxed, tag = "1")]
         pub expr: ::core::option::Option<::prost::alloc::boxed::Box<super::Expression>>,
-        /// (Optional) The expression evaluation mode.
-        #[prost(enumeration = "cast::EvalMode", tag = "4")]
-        pub eval_mode: i32,
         /// (Required) the data type that the expr to be casted to.
         #[prost(oneof = "cast::CastToType", tags = "2, 3")]
         pub cast_to_type: ::core::option::Option<cast::CastToType>,
     }
     /// Nested message and enum types in `Cast`.
     pub mod cast {
-        #[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        pub enum EvalMode {
-            Unspecified = 0,
-            Legacy = 1,
-            Ansi = 2,
-            Try = 3,
-        }
-        impl EvalMode {
-            /// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            pub fn as_str_name(&self) -> &'static str {
-                match self {
-                    EvalMode::Unspecified => "EVAL_MODE_UNSPECIFIED",
-                    EvalMode::Legacy => "EVAL_MODE_LEGACY",
-                    EvalMode::Ansi => "EVAL_MODE_ANSI",
-                    EvalMode::Try => "EVAL_MODE_TRY",
-                }
-            }
-            /// Creates an enum from field names used in the ProtoBuf definition.
-            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-                match value {
-                    "EVAL_MODE_UNSPECIFIED" => Some(Self::Unspecified),
-                    "EVAL_MODE_LEGACY" => Some(Self::Legacy),
-                    "EVAL_MODE_ANSI" => Some(Self::Ansi),
-                    "EVAL_MODE_TRY" => Some(Self::Try),
-                    _ => None,
-                }
-            }
-        }
         /// (Required) the data type that the expr to be casted to.
         #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -811,9 +648,6 @@ pub mod expression {
         /// (Optional) The id of corresponding connect plan.
         #[prost(int64, optional, tag = "2")]
         pub plan_id: ::core::option::Option<i64>,
-        /// (Optional) The requested column is a metadata column.
-        #[prost(bool, optional, tag = "3")]
-        pub is_metadata_column: ::core::option::Option<bool>,
     }
     /// An unresolved function is not explicitly bound to one explicit function, but the function
     /// is resolved during analysis following Sparks name resolution rules.
@@ -854,9 +688,6 @@ pub mod expression {
         /// in the server side.
         #[prost(string, optional, tag = "1")]
         pub unparsed_target: ::core::option::Option<::prost::alloc::string::String>,
-        /// (Optional) The id of corresponding connect plan.
-        #[prost(int64, optional, tag = "2")]
-        pub plan_id: ::core::option::Option<i64>,
     }
     /// Represents all of the input attributes to a given relational operator, for example in
     /// "SELECT `(id)?+.+` FROM ...".
@@ -977,22 +808,11 @@ pub mod expression {
         CommonInlineUserDefinedFunction(super::CommonInlineUserDefinedFunction),
         #[prost(message, tag = "16")]
         CallFunction(super::CallFunction),
-        #[prost(message, tag = "17")]
-        NamedArgumentExpression(
-            ::prost::alloc::boxed::Box<super::NamedArgumentExpression>,
-        ),
         /// This field is used to mark extensions to the protocol. When plugins generate arbitrary
         /// relations they can add them here. During the planning the correct resolution is done.
         #[prost(message, tag = "999")]
         Extension(::prost_types::Any),
     }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExpressionCommon {
-    /// (Required) Keep the information of the origin for this expression such as stacktrace.
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<Origin>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1039,9 +859,6 @@ pub struct PythonUdf {
     /// (Required) Python version being used in the client.
     #[prost(string, tag = "4")]
     pub python_ver: ::prost::alloc::string::String,
-    /// (Optional) Additional includes for the Python UDF.
-    #[prost(string, repeated, tag = "5")]
-    pub additional_includes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1058,9 +875,6 @@ pub struct ScalarScalaUdf {
     /// (Required) True if the UDF can return null value
     #[prost(bool, tag = "4")]
     pub nullable: bool,
-    /// (Required) Indicate if the UDF is an aggregate function
-    #[prost(bool, tag = "5")]
-    pub aggregate: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1085,15 +899,37 @@ pub struct CallFunction {
     #[prost(message, repeated, tag = "2")]
     pub arguments: ::prost::alloc::vec::Vec<Expression>,
 }
+/// StorageLevel for persisting Datasets/Tables.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StorageLevel {
+    /// (Required) Whether the cache should use disk or not.
+    #[prost(bool, tag = "1")]
+    pub use_disk: bool,
+    /// (Required) Whether the cache should use memory or not.
+    #[prost(bool, tag = "2")]
+    pub use_memory: bool,
+    /// (Required) Whether the cache should use off-heap or not.
+    #[prost(bool, tag = "3")]
+    pub use_off_heap: bool,
+    /// (Required) Whether the cached data is deserialized or not.
+    #[prost(bool, tag = "4")]
+    pub deserialized: bool,
+    /// (Required) The number of replicas.
+    #[prost(int32, tag = "5")]
+    pub replication: i32,
+}
+/// ResourceInformation to hold information about a type of Resource.
+/// The corresponding class is 'org.apache.spark.resource.ResourceInformation'
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NamedArgumentExpression {
-    /// (Required) The key of the named argument.
+pub struct ResourceInformation {
+    /// (Required) The name of the resource
     #[prost(string, tag = "1")]
-    pub key: ::prost::alloc::string::String,
-    /// (Required) The value expression of the named argument.
-    #[prost(message, optional, boxed, tag = "2")]
-    pub value: ::core::option::Option<::prost::alloc::boxed::Box<Expression>>,
+    pub name: ::prost::alloc::string::String,
+    /// (Required) An array of strings describing the addresses of the resource.
+    #[prost(string, repeated, tag = "2")]
+    pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Catalog messages are marked as unstable.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1430,7 +1266,7 @@ pub struct Relation {
     pub common: ::core::option::Option<RelationCommon>,
     #[prost(
         oneof = "relation::RelType",
-        tags = "2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 90, 91, 92, 100, 101, 102, 103, 104, 105, 106, 107, 200, 998, 999"
+        tags = "2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 90, 91, 92, 100, 101, 102, 103, 104, 105, 106, 107, 200, 998, 999"
     )]
     pub rel_type: ::core::option::Option<relation::RelType>,
 }
@@ -1519,12 +1355,6 @@ pub mod relation {
         CommonInlineUserDefinedTableFunction(
             super::CommonInlineUserDefinedTableFunction,
         ),
-        #[prost(message, tag = "39")]
-        AsOfJoin(::prost::alloc::boxed::Box<super::AsOfJoin>),
-        #[prost(message, tag = "40")]
-        CommonInlineUserDefinedDataSource(super::CommonInlineUserDefinedDataSource),
-        #[prost(message, tag = "41")]
-        WithRelations(::prost::alloc::boxed::Box<super::WithRelations>),
         /// NA functions
         #[prost(message, tag = "90")]
         FillNa(::prost::alloc::boxed::Box<super::NaFill>),
@@ -1569,15 +1399,11 @@ pub struct Unknown {}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RelationCommon {
     /// (Required) Shared relation metadata.
-    #[deprecated]
     #[prost(string, tag = "1")]
     pub source_info: ::prost::alloc::string::String,
     /// (Optional) A per-client globally unique id for a given connect plan.
     #[prost(int64, optional, tag = "2")]
     pub plan_id: ::core::option::Option<i64>,
-    /// (Optional) Keep the information of the origin for this expression such as stacktrace.
-    #[prost(message, optional, tag = "3")]
-    pub origin: ::core::option::Option<Origin>,
 }
 /// Relation that uses a SQL query to generate the output.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1593,39 +1419,8 @@ pub struct Sql {
         expression::Literal,
     >,
     /// (Optional) A sequence of literal expressions for positional parameters in the SQL query text.
-    #[deprecated]
     #[prost(message, repeated, tag = "3")]
     pub pos_args: ::prost::alloc::vec::Vec<expression::Literal>,
-    /// (Optional) A map of parameter names to expressions.
-    /// It cannot coexist with `pos_arguments`.
-    #[prost(map = "string, message", tag = "4")]
-    pub named_arguments: ::std::collections::HashMap<
-        ::prost::alloc::string::String,
-        Expression,
-    >,
-    /// (Optional) A sequence of expressions for positional parameters in the SQL query text.
-    /// It cannot coexist with `named_arguments`.
-    #[prost(message, repeated, tag = "5")]
-    pub pos_arguments: ::prost::alloc::vec::Vec<Expression>,
-}
-/// Relation of type \[[WithRelations]\].
-///
-/// This relation contains a root plan, and one or more references that are used by the root plan.
-/// There are two ways of referencing a relation, by name (through a subquery alias), or by plan_id
-/// (using RelationCommon.plan_id).
-///
-/// This relation can be used to implement CTEs, describe DAGs, or to reduce tree depth.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WithRelations {
-    /// (Required) Plan at the root of the query tree. This plan is expected to contain one or more
-    /// references. Those references get expanded later on by the engine.
-    #[prost(message, optional, boxed, tag = "1")]
-    pub root: ::core::option::Option<::prost::alloc::boxed::Box<Relation>>,
-    /// (Required) Plans referenced by the root plan. Relations in this list are also allowed to
-    /// contain references to other relations in this list, as long they do not form cycles.
-    #[prost(message, repeated, tag = "2")]
-    pub references: ::prost::alloc::vec::Vec<Relation>,
 }
 /// Relation that reads from a file / table or other data source. Does not have additional
 /// inputs.
@@ -1946,9 +1741,6 @@ pub struct Aggregate {
     /// (Optional) Pivots a column of the current `DataFrame` and performs the specified aggregation.
     #[prost(message, optional, tag = "5")]
     pub pivot: ::core::option::Option<aggregate::Pivot>,
-    /// (Optional) List of values that will be translated to columns in the output DataFrame.
-    #[prost(message, repeated, tag = "6")]
-    pub grouping_sets: ::prost::alloc::vec::Vec<aggregate::GroupingSets>,
 }
 /// Nested message and enum types in `Aggregate`.
 pub mod aggregate {
@@ -1964,13 +1756,6 @@ pub mod aggregate {
         /// the distinct values of the column.
         #[prost(message, repeated, tag = "2")]
         pub values: ::prost::alloc::vec::Vec<super::expression::Literal>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct GroupingSets {
-        /// (Required) Individual grouping set
-        #[prost(message, repeated, tag = "1")]
-        pub grouping_set: ::prost::alloc::vec::Vec<super::Expression>,
     }
     #[derive(
         Clone,
@@ -1990,7 +1775,6 @@ pub mod aggregate {
         Rollup = 2,
         Cube = 3,
         Pivot = 4,
-        GroupingSets = 5,
     }
     impl GroupType {
         /// String value of the enum field names used in the ProtoBuf definition.
@@ -2004,7 +1788,6 @@ pub mod aggregate {
                 GroupType::Rollup => "GROUP_TYPE_ROLLUP",
                 GroupType::Cube => "GROUP_TYPE_CUBE",
                 GroupType::Pivot => "GROUP_TYPE_PIVOT",
-                GroupType::GroupingSets => "GROUP_TYPE_GROUPING_SETS",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -2015,7 +1798,6 @@ pub mod aggregate {
                 "GROUP_TYPE_ROLLUP" => Some(Self::Rollup),
                 "GROUP_TYPE_CUBE" => Some(Self::Cube),
                 "GROUP_TYPE_PIVOT" => Some(Self::Pivot),
-                "GROUP_TYPE_GROUPING_SETS" => Some(Self::GroupingSets),
                 _ => None,
             }
         }
@@ -2119,9 +1901,7 @@ pub struct Sample {
     /// (Optional) Whether to sample with replacement.
     #[prost(bool, optional, tag = "4")]
     pub with_replacement: ::core::option::Option<bool>,
-    /// (Required) The random seed.
-    /// This field is required to avoid generating mutable dataframes (see SPARK-48184 for details),
-    /// however, still keep it 'optional' here for backward compatibility.
+    /// (Optional) The random seed.
     #[prost(int64, optional, tag = "5")]
     pub seed: ::core::option::Option<i64>,
     /// (Required) Explicitly sort the underlying plan to make the ordering deterministic or cache it.
@@ -2366,9 +2146,7 @@ pub struct StatSampleBy {
     /// If a stratum is not specified, we treat its fraction as zero.
     #[prost(message, repeated, tag = "3")]
     pub fractions: ::prost::alloc::vec::Vec<stat_sample_by::Fraction>,
-    /// (Required) The random seed.
-    /// This field is required to avoid generating mutable dataframes (see SPARK-48184 for details),
-    /// however, still keep it 'optional' here for backward compatibility.
+    /// (Optional) The random seed.
     #[prost(int64, optional, tag = "5")]
     pub seed: ::core::option::Option<i64>,
 }
@@ -2490,7 +2268,7 @@ pub struct WithColumnsRenamed {
     /// (Required) The input relation.
     #[prost(message, optional, boxed, tag = "1")]
     pub input: ::core::option::Option<::prost::alloc::boxed::Box<Relation>>,
-    /// (Optional)
+    /// (Required)
     ///
     /// Renaming column names of input relation from A to B where A is the map key
     /// and B is the map value. This is a no-op if schema doesn't contain any A. It
@@ -2501,21 +2279,6 @@ pub struct WithColumnsRenamed {
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     >,
-    #[prost(message, repeated, tag = "3")]
-    pub renames: ::prost::alloc::vec::Vec<with_columns_renamed::Rename>,
-}
-/// Nested message and enum types in `WithColumnsRenamed`.
-pub mod with_columns_renamed {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Rename {
-        /// (Required) The existing column name.
-        #[prost(string, tag = "1")]
-        pub col_name: ::prost::alloc::string::String,
-        /// (Required) The new column name.
-        #[prost(string, tag = "2")]
-        pub new_col_name: ::prost::alloc::string::String,
-    }
 }
 /// Adding columns or replacing the existing columns that have the same names.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2633,9 +2396,6 @@ pub struct MapPartitions {
     /// (Optional) Whether to use barrier mode execution or not.
     #[prost(bool, optional, tag = "3")]
     pub is_barrier: ::core::option::Option<bool>,
-    /// (Optional) ResourceProfile id used for the stage level scheduling.
-    #[prost(int32, optional, tag = "4")]
-    pub profile_id: ::core::option::Option<i32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2763,38 +2523,6 @@ pub struct PythonUdtf {
     #[prost(string, tag = "4")]
     pub python_ver: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommonInlineUserDefinedDataSource {
-    /// (Required) Name of the data source.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// (Required) The data source type.
-    #[prost(oneof = "common_inline_user_defined_data_source::DataSource", tags = "2")]
-    pub data_source: ::core::option::Option<
-        common_inline_user_defined_data_source::DataSource,
-    >,
-}
-/// Nested message and enum types in `CommonInlineUserDefinedDataSource`.
-pub mod common_inline_user_defined_data_source {
-    /// (Required) The data source type.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum DataSource {
-        #[prost(message, tag = "2")]
-        PythonDataSource(super::PythonDataSource),
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PythonDataSource {
-    /// (Required) The encoded commands of the Python data source.
-    #[prost(bytes = "vec", tag = "1")]
-    pub command: ::prost::alloc::vec::Vec<u8>,
-    /// (Required) Python version being used in the client.
-    #[prost(string, tag = "2")]
-    pub python_ver: ::prost::alloc::string::String,
-}
 /// Collect arbitrary (named) metrics from a dataset.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2870,58 +2598,12 @@ pub mod parse {
         }
     }
 }
-/// Relation of type \[[AsOfJoin]\].
-///
-/// `left` and `right` must be present.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AsOfJoin {
-    /// (Required) Left input relation for a Join.
-    #[prost(message, optional, boxed, tag = "1")]
-    pub left: ::core::option::Option<::prost::alloc::boxed::Box<Relation>>,
-    /// (Required) Right input relation for a Join.
-    #[prost(message, optional, boxed, tag = "2")]
-    pub right: ::core::option::Option<::prost::alloc::boxed::Box<Relation>>,
-    /// (Required) Field to join on in left DataFrame
-    #[prost(message, optional, tag = "3")]
-    pub left_as_of: ::core::option::Option<Expression>,
-    /// (Required) Field to join on in right DataFrame
-    #[prost(message, optional, tag = "4")]
-    pub right_as_of: ::core::option::Option<Expression>,
-    /// (Optional) The join condition. Could be unset when `using_columns` is utilized.
-    ///
-    /// This field does not co-exist with using_columns.
-    #[prost(message, optional, tag = "5")]
-    pub join_expr: ::core::option::Option<Expression>,
-    /// Optional. using_columns provides a list of columns that should present on both sides of
-    /// the join inputs that this Join will join on. For example A JOIN B USING col_name is
-    /// equivalent to A JOIN B on A.col_name = B.col_name.
-    ///
-    /// This field does not co-exist with join_condition.
-    #[prost(string, repeated, tag = "6")]
-    pub using_columns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// (Required) The join type.
-    #[prost(string, tag = "7")]
-    pub join_type: ::prost::alloc::string::String,
-    /// (Optional) The asof tolerance within this range.
-    #[prost(message, optional, tag = "8")]
-    pub tolerance: ::core::option::Option<Expression>,
-    /// (Required) Whether allow matching with the same value or not.
-    #[prost(bool, tag = "9")]
-    pub allow_exact_matches: bool,
-    /// (Required) Whether to search for prior, subsequent, or closest matches.
-    #[prost(string, tag = "10")]
-    pub direction: ::prost::alloc::string::String,
-}
 /// A \[[Command]\] is an operation that is executed by the server that does not directly consume or
 /// produce a relational result.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Command {
-    #[prost(
-        oneof = "command::CommandType",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 999"
-    )]
+    #[prost(oneof = "command::CommandType", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 999")]
     pub command_type: ::core::option::Option<command::CommandType>,
 }
 /// Nested message and enum types in `Command`.
@@ -2949,16 +2631,6 @@ pub mod command {
         StreamingQueryManagerCommand(super::StreamingQueryManagerCommand),
         #[prost(message, tag = "10")]
         RegisterTableFunction(super::CommonInlineUserDefinedTableFunction),
-        #[prost(message, tag = "11")]
-        StreamingQueryListenerBusCommand(super::StreamingQueryListenerBusCommand),
-        #[prost(message, tag = "12")]
-        RegisterDataSource(super::CommonInlineUserDefinedDataSource),
-        #[prost(message, tag = "13")]
-        CreateResourceProfileCommand(super::CreateResourceProfileCommand),
-        #[prost(message, tag = "14")]
-        CheckpointCommand(super::CheckpointCommand),
-        #[prost(message, tag = "15")]
-        RemoveCachedRemoteRelationCommand(super::RemoveCachedRemoteRelationCommand),
         /// This field is used to mark extensions to the protocol. When plugins generate arbitrary
         /// Commands they can add them here. During the planning the correct resolution is done.
         #[prost(message, tag = "999")]
@@ -2975,7 +2647,6 @@ pub mod command {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SqlCommand {
     /// (Required) SQL Query.
-    #[deprecated]
     #[prost(string, tag = "1")]
     pub sql: ::prost::alloc::string::String,
     /// (Optional) A map of parameter names to literal expressions.
@@ -2985,24 +2656,8 @@ pub struct SqlCommand {
         expression::Literal,
     >,
     /// (Optional) A sequence of literal expressions for positional parameters in the SQL query text.
-    #[deprecated]
     #[prost(message, repeated, tag = "3")]
     pub pos_args: ::prost::alloc::vec::Vec<expression::Literal>,
-    /// (Optional) A map of parameter names to expressions.
-    /// It cannot coexist with `pos_arguments`.
-    #[prost(map = "string, message", tag = "4")]
-    pub named_arguments: ::std::collections::HashMap<
-        ::prost::alloc::string::String,
-        Expression,
-    >,
-    /// (Optional) A sequence of expressions for positional parameters in the SQL query text.
-    /// It cannot coexist with `named_arguments`.
-    #[deprecated]
-    #[prost(message, repeated, tag = "5")]
-    pub pos_arguments: ::prost::alloc::vec::Vec<Expression>,
-    /// (Optional) The relation that this SQL command will be built on.
-    #[prost(message, optional, tag = "6")]
-    pub input: ::core::option::Option<Relation>,
 }
 /// A command that can create DataFrame global temp view or local temp view.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -3053,9 +2708,6 @@ pub struct WriteOperation {
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     >,
-    /// (Optional) Columns used for clustering the table.
-    #[prost(string, repeated, tag = "10")]
-    pub clustering_columns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// (Optional)
     ///
     /// The destination of the write operation can be either a path or a table.
@@ -3223,9 +2875,6 @@ pub struct WriteOperationV2 {
     /// (Optional) A condition for overwrite saving mode
     #[prost(message, optional, tag = "8")]
     pub overwrite_condition: ::core::option::Option<Expression>,
-    /// (Optional) Columns used for clustering the table.
-    #[prost(string, repeated, tag = "9")]
-    pub clustering_columns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `WriteOperationV2`.
 pub mod write_operation_v2 {
@@ -3366,9 +3015,6 @@ pub struct WriteStreamOperationStartResult {
     /// An optional query name.
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
-    /// Optional query started event if there is any listener registered on the client side.
-    #[prost(string, optional, tag = "3")]
-    pub query_started_event_json: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// A tuple that uniquely identifies an instance of streaming query run. It consists of `id` that
 /// persists across the streaming runs and `run_id` that changes between each run of the
@@ -3648,47 +3294,6 @@ pub mod streaming_query_manager_command_result {
         ListListeners(ListStreamingQueryListenerResult),
     }
 }
-/// The protocol for client-side StreamingQueryListener.
-/// This command will only be set when either the first listener is added to the client, or the last
-/// listener is removed from the client.
-/// The add_listener_bus_listener command will only be set true in the first case.
-/// The remove_listener_bus_listener command will only be set true in the second case.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct StreamingQueryListenerBusCommand {
-    #[prost(oneof = "streaming_query_listener_bus_command::Command", tags = "1, 2")]
-    pub command: ::core::option::Option<streaming_query_listener_bus_command::Command>,
-}
-/// Nested message and enum types in `StreamingQueryListenerBusCommand`.
-pub mod streaming_query_listener_bus_command {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
-    pub enum Command {
-        #[prost(bool, tag = "1")]
-        AddListenerBusListener(bool),
-        #[prost(bool, tag = "2")]
-        RemoveListenerBusListener(bool),
-    }
-}
-/// The protocol for the returned events in the long-running response channel.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamingQueryListenerEvent {
-    /// (Required) The json serialized event, all StreamingQueryListener events have a json method
-    #[prost(string, tag = "1")]
-    pub event_json: ::prost::alloc::string::String,
-    /// (Required) Query event type used by client to decide how to deserialize the event_json
-    #[prost(enumeration = "StreamingQueryEventType", tag = "2")]
-    pub event_type: i32,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamingQueryListenerEventsResult {
-    #[prost(message, repeated, tag = "1")]
-    pub events: ::prost::alloc::vec::Vec<StreamingQueryListenerEvent>,
-    #[prost(bool, optional, tag = "2")]
-    pub listener_bus_listener_added: ::core::option::Option<bool>,
-}
 /// Command to get the output of 'SparkContext.resources'
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -3702,81 +3307,6 @@ pub struct GetResourcesCommandResult {
         ::prost::alloc::string::String,
         ResourceInformation,
     >,
-}
-/// Command to create ResourceProfile
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateResourceProfileCommand {
-    /// (Required) The ResourceProfile to be built on the server-side.
-    #[prost(message, optional, tag = "1")]
-    pub profile: ::core::option::Option<ResourceProfile>,
-}
-/// Response for command 'CreateResourceProfileCommand'.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct CreateResourceProfileCommandResult {
-    /// (Required) Server-side generated resource profile id.
-    #[prost(int32, tag = "1")]
-    pub profile_id: i32,
-}
-/// Command to remove `CashedRemoteRelation`
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RemoveCachedRemoteRelationCommand {
-    /// (Required) The remote to be related
-    #[prost(message, optional, tag = "1")]
-    pub relation: ::core::option::Option<CachedRemoteRelation>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CheckpointCommand {
-    /// (Required) The logical plan to checkpoint.
-    #[prost(message, optional, tag = "1")]
-    pub relation: ::core::option::Option<Relation>,
-    /// (Required) Locally checkpoint using a local temporary
-    /// directory in Spark Connect server (Spark Driver)
-    #[prost(bool, tag = "2")]
-    pub local: bool,
-    /// (Required) Whether to checkpoint this dataframe immediately.
-    #[prost(bool, tag = "3")]
-    pub eager: bool,
-}
-/// The enum used for client side streaming query listener event
-/// There is no QueryStartedEvent defined here,
-/// it is added as a field in WriteStreamOperationStartResult
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum StreamingQueryEventType {
-    QueryProgressUnspecified = 0,
-    QueryProgressEvent = 1,
-    QueryTerminatedEvent = 2,
-    QueryIdleEvent = 3,
-}
-impl StreamingQueryEventType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            StreamingQueryEventType::QueryProgressUnspecified => {
-                "QUERY_PROGRESS_UNSPECIFIED"
-            }
-            StreamingQueryEventType::QueryProgressEvent => "QUERY_PROGRESS_EVENT",
-            StreamingQueryEventType::QueryTerminatedEvent => "QUERY_TERMINATED_EVENT",
-            StreamingQueryEventType::QueryIdleEvent => "QUERY_IDLE_EVENT",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "QUERY_PROGRESS_UNSPECIFIED" => Some(Self::QueryProgressUnspecified),
-            "QUERY_PROGRESS_EVENT" => Some(Self::QueryProgressEvent),
-            "QUERY_TERMINATED_EVENT" => Some(Self::QueryTerminatedEvent),
-            "QUERY_IDLE_EVENT" => Some(Self::QueryIdleEvent),
-            _ => None,
-        }
-    }
 }
 /// A \[[Plan]\] is the structure that carries the runtime information for the execution from the
 /// client to the server. A \[[Plan]\] can either be of the type \[[Relation]\] which is a reference
@@ -3827,14 +3357,6 @@ pub struct AnalyzePlanRequest {
     /// The id should be an UUID string of the format `00112233-4455-6677-8899-aabbccddeeff`
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "17")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// (Required) User context
     #[prost(message, optional, tag = "2")]
     pub user_context: ::core::option::Option<UserContext>,
@@ -4049,16 +3571,11 @@ pub mod analyze_plan_request {
 }
 /// Response to performing analysis of the query. Contains relevant metadata to be able to
 /// reason about the performance.
-/// Next ID: 16
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AnalyzePlanResponse {
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "15")]
-    pub server_side_session_id: ::prost::alloc::string::String,
     #[prost(
         oneof = "analyze_plan_response::Result",
         tags = "2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14"
@@ -4184,14 +3701,6 @@ pub struct ExecutePlanRequest {
     /// The id should be an UUID string of the format `00112233-4455-6677-8899-aabbccddeeff`
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "8")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// (Required) User context
     ///
     /// user_context.user_id and session+id both identify a unique remote spark session on the
@@ -4245,16 +3754,11 @@ pub mod execute_plan_request {
 }
 /// The response of a query, can be one or more for each request. Responses belonging to the
 /// same input query, carry the same `session_id`.
-/// Next ID: 17
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExecutePlanResponse {
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "15")]
-    pub server_side_session_id: ::prost::alloc::string::String,
     /// Identifies the ExecutePlan execution.
     /// If set by the client in ExecutePlanRequest.operationId, that value is returned.
     /// Otherwise generated by the server.
@@ -4280,7 +3784,7 @@ pub struct ExecutePlanResponse {
     /// Union type for the different response messages.
     #[prost(
         oneof = "execute_plan_response::ResponseType",
-        tags = "2, 5, 8, 9, 10, 11, 16, 14, 17, 18, 19, 999"
+        tags = "2, 5, 8, 9, 10, 11, 14, 999"
     )]
     pub response_type: ::core::option::Option<execute_plan_response::ResponseType>,
 }
@@ -4298,15 +3802,10 @@ pub mod execute_plan_response {
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct ArrowBatch {
-        /// Count rows in `data`. Must match the number of rows inside `data`.
         #[prost(int64, tag = "1")]
         pub row_count: i64,
-        /// Serialized Arrow data.
         #[prost(bytes = "vec", tag = "2")]
         pub data: ::prost::alloc::vec::Vec<u8>,
-        /// If set, row offset of the start of this ArrowBatch in execution results.
-        #[prost(int64, optional, tag = "3")]
-        pub start_offset: ::core::option::Option<i64>,
     }
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4349,10 +3848,6 @@ pub mod execute_plan_response {
         pub name: ::prost::alloc::string::String,
         #[prost(message, repeated, tag = "2")]
         pub values: ::prost::alloc::vec::Vec<super::expression::Literal>,
-        #[prost(string, repeated, tag = "3")]
-        pub keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        #[prost(int64, tag = "4")]
-        pub plan_id: i64,
     }
     /// If present, in a reattachable execution this means that after server sends onComplete,
     /// the execution is complete. If the server sends onComplete without sending a ResultComplete,
@@ -4360,34 +3855,6 @@ pub mod execute_plan_response {
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     pub struct ResultComplete {}
-    /// This message is used to communicate progress about the query progress during the execution.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExecutionProgress {
-        /// Captures the progress of each individual stage.
-        #[prost(message, repeated, tag = "1")]
-        pub stages: ::prost::alloc::vec::Vec<execution_progress::StageInfo>,
-        /// Captures the currently in progress tasks.
-        #[prost(int64, tag = "2")]
-        pub num_inflight_tasks: i64,
-    }
-    /// Nested message and enum types in `ExecutionProgress`.
-    pub mod execution_progress {
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-        pub struct StageInfo {
-            #[prost(int64, tag = "1")]
-            pub stage_id: i64,
-            #[prost(int64, tag = "2")]
-            pub num_tasks: i64,
-            #[prost(int64, tag = "3")]
-            pub num_completed_tasks: i64,
-            #[prost(int64, tag = "4")]
-            pub input_bytes_read: i64,
-            #[prost(bool, tag = "5")]
-            pub done: bool,
-        }
-    }
     /// Union type for the different response messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -4409,21 +3876,9 @@ pub mod execute_plan_response {
         /// Response for commands on the streaming query manager.
         #[prost(message, tag = "11")]
         StreamingQueryManagerCommandResult(super::StreamingQueryManagerCommandResult),
-        /// Response for commands on the client side streaming query listener.
-        #[prost(message, tag = "16")]
-        StreamingQueryListenerEventsResult(super::StreamingQueryListenerEventsResult),
         /// Response type informing if the stream is complete in reattachable execution.
         #[prost(message, tag = "14")]
         ResultComplete(ResultComplete),
-        /// Response for command that creates ResourceProfile.
-        #[prost(message, tag = "17")]
-        CreateResourceProfileCommandResult(super::CreateResourceProfileCommandResult),
-        /// (Optional) Intermediate query progress reports.
-        #[prost(message, tag = "18")]
-        ExecutionProgress(ExecutionProgress),
-        /// Response for command that checkpoints a DataFrame.
-        #[prost(message, tag = "19")]
-        CheckpointCommandResult(super::CheckpointCommandResult),
         /// Support arbitrary result objects.
         #[prost(message, tag = "999")]
         Extension(::prost_types::Any),
@@ -4452,14 +3907,6 @@ pub struct ConfigRequest {
     /// The id should be an UUID string of the format `00112233-4455-6677-8899-aabbccddeeff`
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "8")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// (Required) User context
     #[prost(message, optional, tag = "2")]
     pub user_context: ::core::option::Option<UserContext>,
@@ -4552,16 +3999,11 @@ pub mod config_request {
     }
 }
 /// Response to the config request.
-/// Next ID: 5
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConfigResponse {
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "4")]
-    pub server_side_session_id: ::prost::alloc::string::String,
     /// (Optional) The result key-value pairs.
     ///
     /// Available when the operation is 'Get', 'GetWithDefault', 'GetOption', 'GetAll'.
@@ -4589,14 +4031,6 @@ pub struct AddArtifactsRequest {
     /// User context
     #[prost(message, optional, tag = "2")]
     pub user_context: ::core::option::Option<UserContext>,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "7")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// Provides optional information about the client sending the request. This field
     /// can be used for language or version specific information and is only intended for
     /// logging purposes and will not be interpreted by the server.
@@ -4683,17 +4117,9 @@ pub mod add_artifacts_request {
 }
 /// Response to adding an artifact. Contains relevant metadata to verify successful transfer of
 /// artifact(s).
-/// Next ID: 4
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AddArtifactsResponse {
-    /// Session id in which the AddArtifact was running.
-    #[prost(string, tag = "2")]
-    pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "3")]
-    pub server_side_session_id: ::prost::alloc::string::String,
     /// The list of artifact(s) seen by the server.
     #[prost(message, repeated, tag = "1")]
     pub artifacts: ::prost::alloc::vec::Vec<add_artifacts_response::ArtifactSummary>,
@@ -4725,14 +4151,6 @@ pub struct ArtifactStatusesRequest {
     /// The id should be an UUID string of the format `00112233-4455-6677-8899-aabbccddeeff`
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "5")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// User context
     #[prost(message, optional, tag = "2")]
     pub user_context: ::core::option::Option<UserContext>,
@@ -4751,17 +4169,9 @@ pub struct ArtifactStatusesRequest {
     pub names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Response to checking artifact statuses.
-/// Next ID: 4
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ArtifactStatusesResponse {
-    /// Session id in which the ArtifactStatus was running.
-    #[prost(string, tag = "2")]
-    pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "3")]
-    pub server_side_session_id: ::prost::alloc::string::String,
     /// A map of artifact names to their statuses.
     #[prost(map = "string, message", tag = "1")]
     pub statuses: ::std::collections::HashMap<
@@ -4790,14 +4200,6 @@ pub struct InterruptRequest {
     /// The id should be an UUID string of the format `00112233-4455-6677-8899-aabbccddeeff`
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "7")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// (Required) User context
     #[prost(message, optional, tag = "2")]
     pub user_context: ::core::option::Option<UserContext>,
@@ -4870,17 +4272,12 @@ pub mod interrupt_request {
         OperationId(::prost::alloc::string::String),
     }
 }
-/// Next ID: 4
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InterruptResponse {
     /// Session id in which the interrupt was running.
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "3")]
-    pub server_side_session_id: ::prost::alloc::string::String,
     /// Operation ids of the executions which were interrupted.
     #[prost(string, repeated, tag = "2")]
     pub interrupted_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -4908,14 +4305,6 @@ pub struct ReattachExecuteRequest {
     /// This must be an id of existing session.
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "6")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// (Required) User context
     ///
     /// user_context.user_id and session+id both identify a unique remote spark session on the
@@ -4952,14 +4341,6 @@ pub struct ReleaseExecuteRequest {
     /// This must be an id of existing session.
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "7")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
     /// (Required) User context
     ///
     /// user_context.user_id and session+id both identify a unique remote spark session on the
@@ -5006,244 +4387,17 @@ pub mod release_execute_request {
         ReleaseUntil(ReleaseUntil),
     }
 }
-/// Next ID: 4
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ReleaseExecuteResponse {
     /// Session id in which the release was running.
     #[prost(string, tag = "1")]
     pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "3")]
-    pub server_side_session_id: ::prost::alloc::string::String,
     /// Operation id of the operation on which the release executed.
     /// If the operation couldn't be found (because e.g. it was concurrently released), will be unset.
     /// Otherwise, it will be equal to the operation_id from request.
     #[prost(string, optional, tag = "2")]
     pub operation_id: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReleaseSessionRequest {
-    /// (Required)
-    ///
-    /// The session_id of the request to reattach to.
-    /// This must be an id of existing session.
-    #[prost(string, tag = "1")]
-    pub session_id: ::prost::alloc::string::String,
-    /// (Required) User context
-    ///
-    /// user_context.user_id and session+id both identify a unique remote spark session on the
-    /// server side.
-    #[prost(message, optional, tag = "2")]
-    pub user_context: ::core::option::Option<UserContext>,
-    /// Provides optional information about the client sending the request. This field
-    /// can be used for language or version specific information and is only intended for
-    /// logging purposes and will not be interpreted by the server.
-    #[prost(string, optional, tag = "3")]
-    pub client_type: ::core::option::Option<::prost::alloc::string::String>,
-}
-/// Next ID: 3
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReleaseSessionResponse {
-    /// Session id of the session on which the release executed.
-    #[prost(string, tag = "1")]
-    pub session_id: ::prost::alloc::string::String,
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "2")]
-    pub server_side_session_id: ::prost::alloc::string::String,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FetchErrorDetailsRequest {
-    /// (Required)
-    /// The session_id specifies a Spark session for a user identified by user_context.user_id.
-    /// The id should be a UUID string of the format `00112233-4455-6677-8899-aabbccddeeff`.
-    #[prost(string, tag = "1")]
-    pub session_id: ::prost::alloc::string::String,
-    /// (Optional)
-    ///
-    /// Server-side generated idempotency key from the previous responses (if any). Server
-    /// can use this to validate that the server side session has not changed.
-    #[prost(string, optional, tag = "5")]
-    pub client_observed_server_side_session_id: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
-    /// User context
-    #[prost(message, optional, tag = "2")]
-    pub user_context: ::core::option::Option<UserContext>,
-    /// (Required)
-    /// The id of the error.
-    #[prost(string, tag = "3")]
-    pub error_id: ::prost::alloc::string::String,
-    /// Provides optional information about the client sending the request. This field
-    /// can be used for language or version specific information and is only intended for
-    /// logging purposes and will not be interpreted by the server.
-    #[prost(string, optional, tag = "4")]
-    pub client_type: ::core::option::Option<::prost::alloc::string::String>,
-}
-/// Next ID: 5
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FetchErrorDetailsResponse {
-    /// Server-side generated idempotency key that the client can use to assert that the server side
-    /// session has not changed.
-    #[prost(string, tag = "3")]
-    pub server_side_session_id: ::prost::alloc::string::String,
-    #[prost(string, tag = "4")]
-    pub session_id: ::prost::alloc::string::String,
-    /// The index of the root error in errors. The field will not be set if the error is not found.
-    #[prost(int32, optional, tag = "1")]
-    pub root_error_idx: ::core::option::Option<i32>,
-    /// A list of errors.
-    #[prost(message, repeated, tag = "2")]
-    pub errors: ::prost::alloc::vec::Vec<fetch_error_details_response::Error>,
-}
-/// Nested message and enum types in `FetchErrorDetailsResponse`.
-pub mod fetch_error_details_response {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct StackTraceElement {
-        /// The fully qualified name of the class containing the execution point.
-        #[prost(string, tag = "1")]
-        pub declaring_class: ::prost::alloc::string::String,
-        /// The name of the method containing the execution point.
-        #[prost(string, tag = "2")]
-        pub method_name: ::prost::alloc::string::String,
-        /// The name of the file containing the execution point.
-        #[prost(string, optional, tag = "3")]
-        pub file_name: ::core::option::Option<::prost::alloc::string::String>,
-        /// The line number of the source line containing the execution point.
-        #[prost(int32, tag = "4")]
-        pub line_number: i32,
-    }
-    /// QueryContext defines the schema for the query context of a SparkThrowable.
-    /// It helps users understand where the error occurs while executing queries.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct QueryContext {
-        #[prost(enumeration = "query_context::ContextType", tag = "10")]
-        pub context_type: i32,
-        /// The object type of the query which throws the exception.
-        /// If the exception is directly from the main query, it should be an empty string.
-        /// Otherwise, it should be the exact object type in upper case. For example, a "VIEW".
-        #[prost(string, tag = "1")]
-        pub object_type: ::prost::alloc::string::String,
-        /// The object name of the query which throws the exception.
-        /// If the exception is directly from the main query, it should be an empty string.
-        /// Otherwise, it should be the object name. For example, a view name "V1".
-        #[prost(string, tag = "2")]
-        pub object_name: ::prost::alloc::string::String,
-        /// The starting index in the query text which throws the exception. The index starts from 0.
-        #[prost(int32, tag = "3")]
-        pub start_index: i32,
-        /// The stopping index in the query which throws the exception. The index starts from 0.
-        #[prost(int32, tag = "4")]
-        pub stop_index: i32,
-        /// The corresponding fragment of the query which throws the exception.
-        #[prost(string, tag = "5")]
-        pub fragment: ::prost::alloc::string::String,
-        /// The user code (call site of the API) that caused throwing the exception.
-        #[prost(string, tag = "6")]
-        pub call_site: ::prost::alloc::string::String,
-        /// Summary of the exception cause.
-        #[prost(string, tag = "7")]
-        pub summary: ::prost::alloc::string::String,
-    }
-    /// Nested message and enum types in `QueryContext`.
-    pub mod query_context {
-        /// The type of this query context.
-        #[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        pub enum ContextType {
-            Sql = 0,
-            Dataframe = 1,
-        }
-        impl ContextType {
-            /// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            pub fn as_str_name(&self) -> &'static str {
-                match self {
-                    ContextType::Sql => "SQL",
-                    ContextType::Dataframe => "DATAFRAME",
-                }
-            }
-            /// Creates an enum from field names used in the ProtoBuf definition.
-            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-                match value {
-                    "SQL" => Some(Self::Sql),
-                    "DATAFRAME" => Some(Self::Dataframe),
-                    _ => None,
-                }
-            }
-        }
-    }
-    /// SparkThrowable defines the schema for SparkThrowable exceptions.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SparkThrowable {
-        /// Succinct, human-readable, unique, and consistent representation of the error category.
-        #[prost(string, optional, tag = "1")]
-        pub error_class: ::core::option::Option<::prost::alloc::string::String>,
-        /// The message parameters for the error framework.
-        #[prost(map = "string, string", tag = "2")]
-        pub message_parameters: ::std::collections::HashMap<
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        >,
-        /// The query context of a SparkThrowable.
-        #[prost(message, repeated, tag = "3")]
-        pub query_contexts: ::prost::alloc::vec::Vec<QueryContext>,
-        /// Portable error identifier across SQL engines
-        /// If null, error class or SQLSTATE is not set.
-        #[prost(string, optional, tag = "4")]
-        pub sql_state: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    /// Error defines the schema for the representing exception.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Error {
-        /// The fully qualified names of the exception class and its parent classes.
-        #[prost(string, repeated, tag = "1")]
-        pub error_type_hierarchy: ::prost::alloc::vec::Vec<
-            ::prost::alloc::string::String,
-        >,
-        /// The detailed message of the exception.
-        #[prost(string, tag = "2")]
-        pub message: ::prost::alloc::string::String,
-        /// The stackTrace of the exception. It will be set
-        /// if the SQLConf spark.sql.connect.serverStacktrace.enabled is true.
-        #[prost(message, repeated, tag = "3")]
-        pub stack_trace: ::prost::alloc::vec::Vec<StackTraceElement>,
-        /// The index of the cause error in errors.
-        #[prost(int32, optional, tag = "4")]
-        pub cause_idx: ::core::option::Option<i32>,
-        /// The structured data of a SparkThrowable exception.
-        #[prost(message, optional, tag = "5")]
-        pub spark_throwable: ::core::option::Option<SparkThrowable>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CheckpointCommandResult {
-    /// (Required) The logical plan checkpointed.
-    #[prost(message, optional, tag = "1")]
-    pub relation: ::core::option::Option<CachedRemoteRelation>,
 }
 /// Generated client implementations.
 pub mod spark_connect_service_client {
@@ -5570,71 +4724,6 @@ pub mod spark_connect_service_client {
                 );
             self.inner.unary(req, path, codec).await
         }
-        /// Release a session.
-        /// All the executions in the session will be released. Any further requests for the session with
-        /// that session_id for the given user_id will fail. If the session didn't exist or was already
-        /// released, this is a noop.
-        pub async fn release_session(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ReleaseSessionRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::ReleaseSessionResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/spark.connect.SparkConnectService/ReleaseSession",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "spark.connect.SparkConnectService",
-                        "ReleaseSession",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// FetchErrorDetails retrieves the matched exception with details based on a provided error id.
-        pub async fn fetch_error_details(
-            &mut self,
-            request: impl tonic::IntoRequest<super::FetchErrorDetailsRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::FetchErrorDetailsResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/spark.connect.SparkConnectService/FetchErrorDetails",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "spark.connect.SparkConnectService",
-                        "FetchErrorDetails",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
     }
 }
 /// Generated server implementations.
@@ -5724,25 +4813,6 @@ pub mod spark_connect_service_server {
             request: tonic::Request<super::ReleaseExecuteRequest>,
         ) -> std::result::Result<
             tonic::Response<super::ReleaseExecuteResponse>,
-            tonic::Status,
-        >;
-        /// Release a session.
-        /// All the executions in the session will be released. Any further requests for the session with
-        /// that session_id for the given user_id will fail. If the session didn't exist or was already
-        /// released, this is a noop.
-        async fn release_session(
-            &self,
-            request: tonic::Request<super::ReleaseSessionRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::ReleaseSessionResponse>,
-            tonic::Status,
-        >;
-        /// FetchErrorDetails retrieves the matched exception with details based on a provided error id.
-        async fn fetch_error_details(
-            &self,
-            request: tonic::Request<super::FetchErrorDetailsRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::FetchErrorDetailsResponse>,
             tonic::Status,
         >;
     }
@@ -6182,101 +5252,6 @@ pub mod spark_connect_service_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let method = ReleaseExecuteSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/spark.connect.SparkConnectService/ReleaseSession" => {
-                    #[allow(non_camel_case_types)]
-                    struct ReleaseSessionSvc<T: SparkConnectService>(pub Arc<T>);
-                    impl<
-                        T: SparkConnectService,
-                    > tonic::server::UnaryService<super::ReleaseSessionRequest>
-                    for ReleaseSessionSvc<T> {
-                        type Response = super::ReleaseSessionResponse;
-                        type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
-                            tonic::Status,
-                        >;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::ReleaseSessionRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as SparkConnectService>::release_session(&inner, request)
-                                    .await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = ReleaseSessionSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/spark.connect.SparkConnectService/FetchErrorDetails" => {
-                    #[allow(non_camel_case_types)]
-                    struct FetchErrorDetailsSvc<T: SparkConnectService>(pub Arc<T>);
-                    impl<
-                        T: SparkConnectService,
-                    > tonic::server::UnaryService<super::FetchErrorDetailsRequest>
-                    for FetchErrorDetailsSvc<T> {
-                        type Response = super::FetchErrorDetailsResponse;
-                        type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
-                            tonic::Status,
-                        >;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::FetchErrorDetailsRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as SparkConnectService>::fetch_error_details(
-                                        &inner,
-                                        request,
-                                    )
-                                    .await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = FetchErrorDetailsSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(
