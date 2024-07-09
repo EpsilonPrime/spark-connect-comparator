@@ -1,15 +1,16 @@
-use crate::outbound_multiplexer::OutboundMultiplexer;
-use crate::spark::connect::spark_connect_service_server::SparkConnectService;
-use crate::spark::connect::{
-    AddArtifactsRequest, AddArtifactsResponse, AnalyzePlanRequest, AnalyzePlanResponse,
-    ArtifactStatusesRequest, ArtifactStatusesResponse, ConfigRequest, ConfigResponse,
-    ExecutePlanRequest, ExecutePlanResponse, InterruptRequest, InterruptResponse,
-    ReattachExecuteRequest, ReleaseExecuteRequest, ReleaseExecuteResponse,
+use crate::{
+    outbound_multiplexer::OutboundMultiplexer,
+    proto::{
+        spark_connect_service_server::SparkConnectService, AddArtifactsRequest,
+        AddArtifactsResponse, AnalyzePlanRequest, AnalyzePlanResponse, ArtifactStatusesRequest,
+        ArtifactStatusesResponse, ConfigRequest, ConfigResponse, ExecutePlanRequest,
+        ExecutePlanResponse, InterruptRequest, InterruptResponse, ReattachExecuteRequest,
+        ReleaseExecuteRequest, ReleaseExecuteResponse,
+    },
 };
 use std::pin::Pin;
 use tokio::sync::mpsc;
-use tokio_stream::wrappers::ReceiverStream;
-use tokio_stream::{Stream, StreamExt};
+use tokio_stream::{wrappers::ReceiverStream, Stream, StreamExt};
 use tonic::{Request, Response, Status, Streaming};
 
 #[derive(Debug, Default)]

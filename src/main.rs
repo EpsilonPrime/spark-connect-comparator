@@ -1,26 +1,27 @@
-mod server;
-mod outbound_multiplexer;
+use crate::{
+    proto::spark_connect_service_server::SparkConnectServiceServer,
+    server::SparkConnectComparatorService,
+};
+use tonic::transport::Server;
 
-pub mod spark {
-    pub mod connect {
-        #![allow(clippy::all)]
-        include!("generated/spark.connect.rs");
-    }
+mod outbound_multiplexer;
+mod server;
+
+#[allow(clippy::all)]
+mod proto {
+    tonic::include_proto!("spark.connect");
 
     pub(crate) const FILE_DESCRIPTOR_SET: &[u8] =
-        tonic::include_file_descriptor_set!("generated/spark_connect");
+        tonic::include_file_descriptor_set!("spark_connect");
 }
 
-use crate::server::SparkConnectComparatorService;
-use crate::spark::connect::spark_connect_service_server::SparkConnectServiceServer;
-use tonic::transport::Server;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50055".parse()?;
     let server = SparkConnectComparatorService::new();
 
     let reflection_service = tonic_reflection::server::Builder::configure()
-        .register_encoded_file_descriptor_set(spark::FILE_DESCRIPTOR_SET)
+        .register_encoded_file_descriptor_set(proto::FILE_DESCRIPTOR_SET)
         .build()
         .unwrap();
 
