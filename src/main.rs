@@ -1,4 +1,6 @@
 mod server;
+mod outbound_multiplexer;
+
 pub mod spark {
     pub mod connect {
         #![allow(clippy::all)]
@@ -15,7 +17,7 @@ use tonic::transport::Server;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50055".parse()?;
-    let server = MySparkConnectService::default();
+    let server = MySparkConnectService::new();
 
     let reflection_service = tonic_reflection::server::Builder::configure()
         .register_encoded_file_descriptor_set(spark::FILE_DESCRIPTOR_SET)

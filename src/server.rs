@@ -1,9 +1,4 @@
-use std::pin::Pin;
-use tokio::sync::mpsc;
-use tokio_stream::wrappers::ReceiverStream;
-use tokio_stream::Stream;
-use tonic::{Request, Response, Status, Streaming};
-
+use crate::outbound_multiplexer::OutboundMultiplexer;
 use crate::spark::connect::spark_connect_service_server::SparkConnectService;
 use crate::spark::connect::{
     execute_plan_response, AddArtifactsRequest, AddArtifactsResponse, AnalyzePlanRequest,
@@ -11,9 +6,24 @@ use crate::spark::connect::{
     ConfigResponse, ExecutePlanRequest, ExecutePlanResponse, InterruptRequest, InterruptResponse,
     ReattachExecuteRequest, ReleaseExecuteRequest, ReleaseExecuteResponse,
 };
+use std::pin::Pin;
+use tokio::sync::mpsc;
+use tokio_stream::wrappers::ReceiverStream;
+use tokio_stream::Stream;
+use tonic::{Request, Response, Status, Streaming};
 
 #[derive(Debug, Default)]
-pub struct MySparkConnectService {}
+pub struct MySparkConnectService {
+    muxer: OutboundMultiplexer,
+}
+
+impl MySparkConnectService {
+    pub fn new() -> Self {
+        MySparkConnectService {
+            muxer: OutboundMultiplexer::new(),
+        }
+    }
+}
 
 #[tonic::async_trait]
 impl SparkConnectService for MySparkConnectService {
@@ -27,6 +37,8 @@ impl SparkConnectService for MySparkConnectService {
         println!("Got an execute_plan request: {:?}", request);
 
         let (tx, rx) = mpsc::channel(128);
+
+        // TODO -- Forward the request to a remote client and yield all of the replies.
 
         let reply = ExecutePlanResponse {
             session_id: request.into_inner().session_id,
@@ -61,12 +73,11 @@ impl SparkConnectService for MySparkConnectService {
     ) -> Result<Response<AnalyzePlanResponse>, Status> {
         println!("Got an analyze_plan request: {:?}", request);
 
-        let reply = AnalyzePlanResponse {
-            session_id: request.into_inner().session_id,
-            result: None,
-        };
+        let req_ref = request.get_ref();
 
-        Ok(Response::new(reply))
+        let client = self.muxer.get_client(req_ref.session_id.to_string());
+
+        client.await.unwrap().analyze_plan(request).await
     }
 
     async fn config(
@@ -75,13 +86,11 @@ impl SparkConnectService for MySparkConnectService {
     ) -> Result<Response<ConfigResponse>, Status> {
         println!("Got a config request: {:?}", request);
 
-        let reply = ConfigResponse {
-            session_id: request.into_inner().session_id,
-            pairs: vec![],
-            warnings: vec![],
-        };
+        let req_ref = request.get_ref();
 
-        Ok(Response::new(reply))
+        let client = self.muxer.get_client(req_ref.session_id.to_string());
+
+        client.await.unwrap().config(request).await
     }
 
     async fn add_artifacts(
@@ -114,12 +123,11 @@ impl SparkConnectService for MySparkConnectService {
     ) -> Result<Response<InterruptResponse>, Status> {
         println!("Got an interrupt request: {:?}", request);
 
-        let reply = InterruptResponse {
-            session_id: request.into_inner().session_id,
-            interrupted_ids: vec![],
-        };
+        let req_ref = request.get_ref();
 
-        Ok(Response::new(reply))
+        let client = self.muxer.get_client(req_ref.session_id.to_string());
+
+        client.await.unwrap().interrupt(request).await
     }
 
     type ReattachExecuteStream =
@@ -163,11 +171,10 @@ impl SparkConnectService for MySparkConnectService {
     ) -> Result<Response<ReleaseExecuteResponse>, Status> {
         println!("Got a release_execute request: {:?}", request);
 
-        let reply = ReleaseExecuteResponse {
-            session_id: request.into_inner().session_id,
-            operation_id: None,
-        };
+        let req_ref = request.get_ref();
 
-        Ok(Response::new(reply))
+        let client = self.muxer.get_client(req_ref.session_id.to_string());
+
+        client.await.unwrap().release_execute(request).await
     }
 }
