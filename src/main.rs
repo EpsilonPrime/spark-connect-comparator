@@ -17,6 +17,7 @@ mod proto {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // TODO -- Make the host/port to listen to configurable.
     let addr = "[::1]:50055".parse()?;
     let server = SparkConnectComparatorService::new();
 

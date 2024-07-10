@@ -9,19 +9,19 @@ use crate::{
     },
 };
 use std::pin::Pin;
-use tokio::sync::mpsc;
+use tokio::sync::{mpsc, Mutex};
 use tokio_stream::{wrappers::ReceiverStream, Stream, StreamExt};
 use tonic::{Request, Response, Status, Streaming};
 
 #[derive(Debug, Default)]
 pub struct SparkConnectComparatorService {
-    muxer: OutboundMultiplexer,
+    muxer: Mutex<OutboundMultiplexer>,
 }
 
 impl SparkConnectComparatorService {
     pub fn new() -> Self {
         SparkConnectComparatorService {
-            muxer: OutboundMultiplexer::new(),
+            muxer: Mutex::new(OutboundMultiplexer::new()),
         }
     }
 }
@@ -41,11 +41,8 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let req_ref = request.get_ref();
 
-        let mut client = self
-            .muxer
-            .get_client(req_ref.session_id.to_string())
-            .await
-            .unwrap();
+        let mut muxer = self.muxer.lock().await;
+        let mut client = muxer.get_client(&req_ref.session_id).await.unwrap();
 
         let mut stream = client.execute_plan(request).await?.into_inner();
 
@@ -74,9 +71,10 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let req_ref = request.get_ref();
 
-        let client = self.muxer.get_client(req_ref.session_id.to_string());
+        let mut muxer = self.muxer.lock().await;
+        let mut client = muxer.get_client(&req_ref.session_id).await.unwrap();
 
-        client.await.unwrap().analyze_plan(request).await
+        client.analyze_plan(request).await
     }
 
     async fn config(
@@ -87,9 +85,10 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let req_ref = request.get_ref();
 
-        let client = self.muxer.get_client(req_ref.session_id.to_string());
+        let mut muxer = self.muxer.lock().await;
+        let mut client = muxer.get_client(&req_ref.session_id).await.unwrap();
 
-        client.await.unwrap().config(request).await
+        client.config(request).await
     }
 
     async fn add_artifacts(
@@ -124,9 +123,10 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let req_ref = request.get_ref();
 
-        let client = self.muxer.get_client(req_ref.session_id.to_string());
+        let mut muxer = self.muxer.lock().await;
+        let mut client = muxer.get_client(&req_ref.session_id).await.unwrap();
 
-        client.await.unwrap().interrupt(request).await
+        client.interrupt(request).await
     }
 
     type ReattachExecuteStream =
@@ -142,11 +142,8 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let req_ref = request.get_ref();
 
-        let mut client = self
-            .muxer
-            .get_client(req_ref.session_id.to_string())
-            .await
-            .unwrap();
+        let mut muxer = self.muxer.lock().await;
+        let mut client = muxer.get_client(&req_ref.session_id).await.unwrap();
 
         let mut stream = client.reattach_execute(request).await?.into_inner();
 
@@ -175,8 +172,14 @@ impl SparkConnectService for SparkConnectComparatorService {
 
         let req_ref = request.get_ref();
 
-        let client = self.muxer.get_client(req_ref.session_id.to_string());
+        let mut muxer = self.muxer.lock().await;
+        let session_id = req_ref.session_id.to_string();
+        let mut client = muxer.get_client(&session_id).await.unwrap();
 
-        client.await.unwrap().release_execute(request).await
+        let result = client.release_execute(request).await;
+
+        muxer.remove_client(&session_id);
+
+        result
     }
 }
